@@ -1,8 +1,9 @@
 package quotes;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 
@@ -34,5 +35,16 @@ public class Quote {
         someQuote += quote[x].text;
         System.out.println(someQuote);
         return someQuote;
+    }
+
+    public static String getQuoteFromAPI() throws IOException {
+        URL swansonUrl = new URL("https://ron-swanson-quotes.herokuapp.com/v2/quotes");
+        HttpURLConnection swansonUrlConnection = (HttpURLConnection) swansonUrl.openConnection();
+        swansonUrlConnection.setRequestMethod("GET");
+        InputStreamReader swansonInputStreamReader = new InputStreamReader(swansonUrlConnection.getInputStream());
+        BufferedReader swansonBufferedReader = new BufferedReader(swansonInputStreamReader);
+        String swansonData = swansonBufferedReader.readLine();
+        System.out.println(swansonData);
+        return swansonData;
     }
 }
